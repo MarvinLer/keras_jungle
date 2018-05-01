@@ -6,7 +6,7 @@ from keras.datasets import cifar10
 from keras.utils import to_categorical
 
 
-def vgg19(input_shape, number_classes):
+def vgg16(input_shape, number_classes):
     input_image = Input(shape=input_shape)
     x = Conv2D(64, (3, 3), strides=(1, 1), padding='same', activation='relu')(input_image)
     x = Conv2D(64, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
@@ -19,16 +19,13 @@ def vgg19(input_shape, number_classes):
     x = Conv2D(256, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
     x = Conv2D(256, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
     x = Conv2D(256, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
-    x = Conv2D(256, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
     x = MaxPooling2D((2, 2), strides=(2, 2))(x)
 
     x = Conv2D(512, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
     x = Conv2D(512, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
     x = Conv2D(512, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
-    x = Conv2D(512, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
     x = MaxPooling2D((2, 2), strides=(2, 2))(x)
 
-    x = Conv2D(512, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
     x = Conv2D(512, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
     x = Conv2D(512, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
     x = Conv2D(512, (3, 3), strides=(1, 1), padding='same', activation='relu')(x)
@@ -57,7 +54,7 @@ def usage_example():
     y_train = to_categorical(y_train, num_classes)
     y_test = to_categorical(y_test, num_classes)
 
-    model = vgg19(input_shape=image_shape, number_classes=num_classes)
+    model = vgg16(input_shape=image_shape, number_classes=num_classes)
     model.compile(optimizer='SGD', loss='categorical_crossentropy')
     model.summary()
 
