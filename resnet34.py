@@ -1,6 +1,6 @@
 from __future__ import print_function, division
 from keras.models import Model
-from keras.layers import Input, Conv2D, MaxPooling2D, Flatten, Dense, Activation, add, GlobalAveragePooling2D
+from keras.layers import Input, Conv2D, MaxPooling2D, Dense, Activation, add, GlobalAveragePooling2D
 # usage_example() function imports
 from keras.datasets import cifar10
 from keras.utils import to_categorical
@@ -9,13 +9,17 @@ from keras.utils import to_categorical
 def resnet34(input_shape, number_classes):
     def building_block(inputs, n_filters, downsample=False):
         """
-        A block with no downsampling is a input->3x3 conv->relu->3x3 conv->add input->relu with 1x1 stride for
-        the conv layers.
-        A block with downsampling has 2x2 stride for first conv layer and no add input operation.
+        The building block architecture:
+        - 3x3 conv 1 stride n filters with relu
+        - 3x3 conv 1 stride n filters no activation
+        - Add tensor inputs
+        - relu
+        The conv layers are of stride 1x1 except when the block is downsampling the size of its inputs (counterwisely
+        increasing the size of filters).
 
         :param inputs: tensor containing the input image (or minibatch of images)
         :param n_filters: the two conv layers number of filters
-        :param downsample: True to downsample the input, else False
+        :param downsample: True to downsample the input (number filters *= 2, output image size /= 2), else False
         :return: output block tensor
         """
         x = Conv2D(n_filters, (3, 3), strides=(1, 1) if not downsample else (2, 2), padding='same')(inputs)
