@@ -25,7 +25,8 @@ def resnet34(input_shape, number_classes):
         :return: output block tensor
         """
         x = Conv2D(n_filters // 4, (1, 1), strides=(1, 1), padding='same', activation='relu')(inputs)
-        x = Conv2D(n_filters // 4, (3, 3), strides=(1, 1) if not downsample else (2, 2), padding='same', activation='relu')(x)
+        x = Conv2D(n_filters // 4, (3, 3), strides=(1, 1) if not downsample else (2, 2), padding='same',
+                   activation='relu')(x)
         x = Conv2D(n_filters, (1, 1), strides=(1, 1), padding='same')(x)
         if not downsample:
             x = add([inputs, x])
